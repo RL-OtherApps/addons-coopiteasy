@@ -50,22 +50,32 @@
                 <div name="langs" t-if="doc.langs" class="col-xs-3">
                     <strong>Langs:</strong>
                     <t t-foreach="doc.langs" t-as="lang">
-                        <t t-if="lang">                 
+                        <t t-if="lang">
                             <div t-field="lang.name"/>
-                        </t>                                  
+                        </t>
                     </t>
                 </div>
              </xpath>
+
+            <xpath expr="//p[@t-field='doc.note']" position="replace">
+                <div t-if="doc.location_id.line_ids">
+                    <t t-foreach="doc.location_id.line_ids" t-as="line">
+                        <t t-if="(line.location_id == doc.location_id) and (line.activity_type_id == doc.activity_type)">
+                            <div t-field="line.note_id.content"/>
+                        </t>
+                    </t>
+                </div>
+            </xpath>
+
             <xpath expr="//p[@id='fiscal_position_remark']" position="after">
-                <div t-if="doc.activity_type.terms_conditions_id or doc.location_id.terms_conditions_id">
-                    <div style="page-break-after: always;"/>
-                    <strong>Terms and Conditions:</strong>
-                    <div name="terms_conditions_activity_type" t-if="doc.activity_type.terms_conditions_id">
-                        <div t-field="doc.activity_type.terms_conditions_id.content"/>
-                    </div>
-                    <div name="terms_conditions_location_id" t-if="doc.location_id.terms_conditions_id">
-                        <div t-field="doc.location_id.terms_conditions_id.content"/>
-                    </div>
+                <div t-if="doc.location_id.line_ids">
+                    <t t-foreach="doc.location_id.line_ids" t-as="line">
+                        <t t-if="(line.location_id == doc.location_id) and (line.activity_type_id == doc.activity_type)">
+                            <div style="page-break-after: always;"/>
+                            <strong>Terms and Conditions:</strong>
+                            <div t-field="line.terms_id.content"/>
+                        </t>
+                    </t>
                 </div>
             </xpath>
         </template>

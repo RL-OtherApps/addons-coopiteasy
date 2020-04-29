@@ -3,6 +3,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from openerp import _, api, fields, models
+from openerp.exceptions import ValidationError, UserError
+
 from collections import defaultdict
 
 class ResourceCategory(models.Model):
@@ -47,10 +49,45 @@ class ResourceLocation(models.Model):
     guides = fields.One2many('res.partner', 'resource_location_guide', domain=[('is_guide', '=', True)], string="Guides")
     trainers = fields.One2many('res.partner', 'resource_location_trainer', domain=[('is_trainer', '=', True)], string="Trainers")
     opening_hours_ids = fields.Many2many('activity.opening.hours', string="Opening Hours")
-    terms_conditions_id = fields.Many2one(
-        comodel_name="res.company.terms",
+    terms_conditions_ids = fields.One2many(
+        "res.company.terms",
+        "location_id",
         string="Terms and Conditions",
         help="Terms and Conditions related to this location"
+    )
+    note_ids = fields.One2many(
+        "res.company.note",
+        "location_id",
+        string="Sale note",
+        help="Sale note related to this location"
+    )
+    line_ids = fields.One2many(
+        'resource.location.terms',
+        'location_id'
+    )
+
+
+class ResourceLocationTerms(models.Model):
+    _name = "resource.location.terms"
+
+    location_id = fields.Many2one(
+        'resource.location',
+        string="Location",
+    )
+
+    activity_type_id = fields.Many2one(
+        'resource.activity.type',
+        string="Activity Type",
+    )
+    terms_id = fields.Many2one(
+        "res.company.terms",
+        string="Terms and Conditions",
+        help="Terms and Conditions related to this location"
+    )
+    note_id = fields.Many2one(
+        "res.company.note",
+        string="Sale note",
+        help="Sale note related to this location"
     )
 
 

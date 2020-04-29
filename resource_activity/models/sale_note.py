@@ -5,21 +5,20 @@
 from openerp import api, fields, models
 
 
-class TermsConditions(models.Model):
-    _name = "res.company.terms"
-    _description = "Terms and Conditions"
+class SaleNote(models.Model):
+    _name = "res.company.note"
+    _description = "Sale Note"
 
     company_id = fields.Many2one(
         comodel_name="res.company",
         string="Company",
         required=True,
-        default=lambda self: self.env['res.company']._company_default_get()
+        default=lambda self: self.env['res.company']._company_default_get(),
     )
     activity_type_id = fields.Many2one(
         'resource.activity.type',
         string="Activity type",
         required=True)
-
     location_id = fields.Many2one(
         'resource.location',
         string="Location",

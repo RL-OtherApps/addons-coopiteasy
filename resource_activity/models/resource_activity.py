@@ -116,10 +116,17 @@ class ResourceActivityType(models.Model):
         'product.product',
         string="Product")
     active = fields.Boolean('Active', default=True)
-    terms_conditions_id = fields.Many2one(
-        comodel_name="res.company.terms",
+    terms_conditions_ids = fields.One2many(
+        "res.company.terms",
+        "activity_type_id",
         string="Terms and Conditions",
         help="Terms and Conditions related to this activity type"
+    )
+    note_ids = fields.One2many(
+        "res.company.note",
+        "activity_type_id",
+        string="Sale note",
+        help="Sale note related to this activity type"
     )
 
 

@@ -50,6 +50,7 @@
         'views/resource_views.xml',
         'views/resource_activity_delivery_views.xml',
         'views/terms_conditions_views.xml',
+        'views/sale_note_views.xml',
         'wizard/activity_draft_to_done.xml',
         'wizard/cancel_sale_order_wizard.xml',
         'reports/resource_activity_reports.xml',
